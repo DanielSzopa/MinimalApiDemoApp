@@ -12,7 +12,7 @@ namespace MinimalApiDemo.DataAccess.Data
             _sqlDataAccess = sqlDataAccess;
         }
 
-        public async Task<IEnumerable<UserModel>> GetUserModels() =>
+        public async Task<IEnumerable<UserModel>> GetUsers() =>
            await _sqlDataAccess.QueryData<UserModel, dynamic>("dbo.spUser_GetAll", new { });
 
         public async Task<UserModel?> GetUser(int id)
@@ -36,7 +36,7 @@ namespace MinimalApiDemo.DataAccess.Data
         }
 
         public async Task UpdateUser(UserModel model) =>
-            await _sqlDataAccess.Execute("dbo.spUser_Insert", model);
+            await _sqlDataAccess.Execute("dbo.spUser_Update", model);
 
 
         public async Task DeleteUser(int id) =>

@@ -6,7 +6,7 @@ namespace MinimalApiDemo.DataAccess.Data
     {
         Task DeleteUser(int id);
         Task<UserModel?> GetUser(int id);
-        Task<IEnumerable<UserModel>> GetUserModels();
+        Task<IEnumerable<UserModel>> GetUsers();
         Task InsertUser(UserModel model);
         Task UpdateUser(UserModel model);
     }
