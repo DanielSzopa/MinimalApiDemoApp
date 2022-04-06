@@ -7,29 +7,27 @@ namespace MinimalApiDemo.DataAccess.DbAccess
 {
     public class SqlDataAccess : ISqlDataAccess
     {
-        private readonly IConfiguration _configuration;
+        private readonly string connectionString;
 
         public SqlDataAccess(IConfiguration config)
         {
-            _configuration = config;
+            connectionString = config.GetConnectionString("Default");
         }
 
-        public async Task<IEnumerable<T>> LoadData<T, U>(
+        public async Task<IEnumerable<T>> QueryData<T, U>(
             string storedProcedure,
-            U parameters,
-            string connectionId = "Default")
+            U parameters)
         {
-            using IDbConnection connection = new SqlConnection(_configuration.GetConnectionString(connectionId));
+            using IDbConnection connection = new SqlConnection(connectionString);
 
             return await connection.QueryAsync<T>(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
         }
 
-        public async Task SaveData<T>(
+        public async Task Execute<T>(
             string storedProcedure,
-            T parameters,
-            string connectionId = "Default")
+            T parameters)
         {
-            using IDbConnection connection = new SqlConnection(_configuration.GetConnectionString(connectionId));
+            using IDbConnection connection = new SqlConnection(connectionString);
 
             await connection.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
         }

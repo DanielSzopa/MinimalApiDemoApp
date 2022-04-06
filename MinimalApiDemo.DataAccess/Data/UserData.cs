@@ -13,11 +13,11 @@ namespace MinimalApiDemo.DataAccess.Data
         }
 
         public async Task<IEnumerable<UserModel>> GetUserModels() =>
-           await _sqlDataAccess.LoadData<UserModel, dynamic>("dbo.spUser_GetAll", new { });
+           await _sqlDataAccess.QueryData<UserModel, dynamic>("dbo.spUser_GetAll", new { });
 
         public async Task<UserModel?> GetUser(int id)
         {
-            var results = await _sqlDataAccess.LoadData<UserModel, dynamic>
+            var results = await _sqlDataAccess.QueryData<UserModel, dynamic>
                 ("dbo.spUser_Get", new { Id = id });
 
             var user = results.FirstOrDefault();
@@ -32,15 +32,15 @@ namespace MinimalApiDemo.DataAccess.Data
                 LastName = model.LastName
             };
 
-            await _sqlDataAccess.SaveData("dbo.spUser_Insert", parameters);
+            await _sqlDataAccess.Execute("dbo.spUser_Insert", parameters);
         }
 
         public async Task UpdateUser(UserModel model) =>
-            await _sqlDataAccess.SaveData("dbo.spUser_Insert", model);
+            await _sqlDataAccess.Execute("dbo.spUser_Insert", model);
 
 
         public async Task DeleteUser(int id) =>
-            await _sqlDataAccess.SaveData("dbo.spUser_Delete", new { Id = id });
+            await _sqlDataAccess.Execute("dbo.spUser_Delete", new { Id = id });
 
     }
 }
